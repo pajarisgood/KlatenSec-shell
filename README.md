@@ -3,6 +3,7 @@
 coded by [pajaR](http://pajaar.my.id)
 ## features 
 
+* mobile responsive
 * cmd
 * site info
 * No log
