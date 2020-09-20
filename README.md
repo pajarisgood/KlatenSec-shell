@@ -17,5 +17,3 @@ coded by [pajaR](http://pajaar.my.id)
 * rename directory
 * remove directory
 * zip directory archiving
-
-thx for u
